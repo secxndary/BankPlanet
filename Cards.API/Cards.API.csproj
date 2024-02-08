@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <InvariantGlobalization>true</InvariantGlobalization>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Application\CardType\Commands\" />
+      <Folder Include="Application\CardType\Events\" />
+      <Folder Include="Application\CardType\Handlers\" />
+      <Folder Include="Application\CardType\Queries\" />
+      <Folder Include="Application\Card\Commands\" />
+      <Folder Include="Application\Card\Events\" />
+      <Folder Include="Application\Card\Handlers\" />
+      <Folder Include="Application\Card\Queries\" />
+      <Folder Include="Application\Contracts\" />
+      <Folder Include="Application\Request\Commands\" />
+      <Folder Include="Application\Request\Events\" />
+      <Folder Include="Application\Request\Handlers\" />
+      <Folder Include="Application\Request\Queries\" />
+      <Folder Include="Domain\Entities\" />
+      <Folder Include="Domain\Exceptions\" />
+      <Folder Include="Domain\Repositories\" />
+      <Folder Include="Domain\Shared\DataTransferObjects\" />
+      <Folder Include="Infrastructure\Persistence\EntityConfigurations\" />
+      <Folder Include="Infrastructure\Persistence\Migrations\" />
+      <Folder Include="Presentation\Controllers\" />
+      <Folder Include="Presentation\Filters\" />
+      <Folder Include="Presentation\Middlewares\" />
+    </ItemGroup>
+
+</Project>
