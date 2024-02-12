@@ -13,13 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Contracts\" />
-      <Folder Include="Entities\" />
-      <Folder Include="Extensions\" />
-      <Folder Include="Migrations\" />
-      <Folder Include="Presentation\" />
-      <Folder Include="Services\" />
-      <Folder Include="Shared\DataTransferObjects\" />
+      <Folder Include="Controllers\" />
     </ItemGroup>
 
 </Project>

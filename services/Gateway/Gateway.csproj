@@ -12,14 +12,4 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Contracts\" />
-      <Folder Include="Entities\" />
-      <Folder Include="Extensions\" />
-      <Folder Include="Migrations\" />
-      <Folder Include="Presentation\" />
-      <Folder Include="Services\" />
-      <Folder Include="Shared\DataTransferObjects\" />
-    </ItemGroup>
-
 </Project>
