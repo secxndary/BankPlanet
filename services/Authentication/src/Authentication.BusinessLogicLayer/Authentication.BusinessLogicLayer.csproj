@@ -7,9 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="DataTransferObjects\" />
-      <Folder Include="Mappings\" />
-      <Folder Include="Services\" />
+      <PackageReference Include="AutoMapper" Version="13.0.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Authentication.DataAccessLayer\Authentication.DataAccessLayer.csproj" />
     </ItemGroup>
 
 </Project>
