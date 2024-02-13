@@ -1,13 +1,14 @@
 using Authentication.BusinessLogicLayer.DataTransferObjects;
 using Authentication.BusinessLogicLayer.Services.Interfaces;
+using Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Authentication.PresentationLayer.Controllers;
 
 [ApiController]
 [Route("api/token")]
-[Consumes("application/json")]
-[Produces("application/json")]
+[Consumes(Constants.ApplicationJson)]
+[Produces(Constants.ApplicationJson)]
 public class TokenController(IServiceManager service) : ControllerBase
 {
     [HttpPost("refresh")]

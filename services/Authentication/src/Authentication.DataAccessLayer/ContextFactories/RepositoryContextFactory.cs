@@ -12,7 +12,7 @@ public class RepositoryContextFactory : IDesignTimeDbContextFactory<RepositoryCo
     {
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
+            .AddJsonFile(Constants.AppSettingsJson)
             .Build();
 
         var builder = new DbContextOptionsBuilder<RepositoryContext>()

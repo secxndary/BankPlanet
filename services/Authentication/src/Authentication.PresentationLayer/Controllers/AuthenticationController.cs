@@ -1,5 +1,6 @@
 using Authentication.BusinessLogicLayer.DataTransferObjects;
 using Authentication.BusinessLogicLayer.Services.Interfaces;
+using Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,8 +8,8 @@ namespace Authentication.PresentationLayer.Controllers;
 
 [ApiController]
 [Route("api/auth")]
-[Consumes("application/json")]
-[Produces("application/json")]
+[Consumes(Constants.ApplicationJson)]
+[Produces(Constants.ApplicationJson)]
 public class AuthenticationController(IServiceManager service) : ControllerBase
 {
     [HttpPost("sign-up")]
