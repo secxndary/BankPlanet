@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="CardType\Commands\" />
+      <Folder Include="CardType\Handlers\" />
+      <Folder Include="CardType\Queries\" />
+      <Folder Include="Card\Commands\" />
+      <Folder Include="Card\Handlers\" />
+      <Folder Include="Card\Queries\" />
+      <Folder Include="DataTransferObjects\" />
+      <Folder Include="Transaction\Commands\" />
+      <Folder Include="Transaction\Handlers\" />
+      <Folder Include="Transaction\Queries\" />
+    </ItemGroup>
+
+</Project>
