@@ -1,8 +1,10 @@
 using System.Net;
 using Authentication.DataAccessLayer.Entities.ErrorModel;
+using Authentication.DataAccessLayer.Entities.Exceptions.BadRequest;
+using Authentication.DataAccessLayer.Entities.Exceptions.NotFound;
+using Authentication.DataAccessLayer.Entities.Exceptions.Unauthorized;
+using Common;
 using Microsoft.AspNetCore.Diagnostics;
-using Shared.Exceptions.BadRequest;
-using Shared.Exceptions.NotFound;
 
 namespace Authentication.PresentationLayer.Extensions;
 
@@ -15,7 +17,7 @@ public static class ExceptionMiddlewareExtensions
             appError.Run(async context =>
             {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                context.Response.ContentType = "application/json";
+                context.Response.ContentType = Constants.ApplicationJson;
 
                 var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                 if (contextFeature != null)
@@ -24,11 +26,12 @@ public static class ExceptionMiddlewareExtensions
                     {
                         NotFoundException => StatusCodes.Status404NotFound,
                         BadRequestException => StatusCodes.Status400BadRequest,
+                        UnauthorizedException => StatusCodes.Status401Unauthorized,
                         _ => StatusCodes.Status500InternalServerError
                     };
 
                     await context.Response.WriteAsync(
-                        new ErrorDetails()
+                        new ErrorDetails
                         {
                             StatusCode = context.Response.StatusCode,
                             Message = contextFeature.Error.Message
