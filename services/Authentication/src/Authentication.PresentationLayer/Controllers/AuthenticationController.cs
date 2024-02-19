@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Authentication.PresentationLayer.Controllers;
 
 [ApiController]
-[Route("api/auth")]
+[Route("api/[controller]")]
 [Consumes(Constants.ApplicationJson)]
 [Produces(Constants.ApplicationJson)]
 public class AuthenticationController(IServiceManager service) : ControllerBase
@@ -15,25 +15,26 @@ public class AuthenticationController(IServiceManager service) : ControllerBase
     [HttpPost("sign-up")]
     [ProducesResponseType(201)]
     [ProducesResponseType(typeof(IdentityError), 400)]
-    public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto user)
+    public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto user, CancellationToken cancellationToken)
     {
-        var result = await service.AuthenticationService.RegisterUser(user);
+        var result = await service.AuthenticationService.RegisterUserAsync(user, cancellationToken);
         if (result.Succeeded) return StatusCode(201);
 
         foreach (var error in result.Errors)
             ModelState.TryAddModelError(error.Code, error.Description);
+
         return BadRequest(ModelState);
     }
 
     [HttpPost("sign-in")]
     [ProducesResponseType(typeof(TokenDto), 200)]
     [ProducesResponseType(401)]
-    public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
+    public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user, CancellationToken cancellationToken)
     {
-        if (!await service.AuthenticationService.ValidateUser(user))
-            return Unauthorized();
+        await service.AuthenticationService.ValidateUserAsync(user, cancellationToken);
 
-        var tokenDto = await service.AuthenticationService.CreateToken(populateExpiration: true);
+        var tokenDto = await service.TokenService.CreateTokenAsync(populateExpiration: true, cancellationToken);
+
         return Ok(tokenDto);
     }
 }
