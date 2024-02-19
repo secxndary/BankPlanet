@@ -3,8 +3,9 @@ using Authentication.PresentationLayer.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.ConfigureLowercaseRoute();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.ConfigureSwagger();
 
 builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
 builder.Services.ConfigureServiceManager();

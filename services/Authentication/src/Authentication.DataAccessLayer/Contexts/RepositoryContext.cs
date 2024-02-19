@@ -1,3 +1,4 @@
+using System.Reflection;
 using Authentication.DataAccessLayer.Entities.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -9,5 +10,7 @@ public class RepositoryContext(DbContextOptions options) : IdentityDbContext<Use
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
