@@ -1,5 +1,5 @@
-﻿using Shared.Exceptions.BadRequest;
+﻿using Common;
 
 namespace Authentication.DataAccessLayer.Entities.Exceptions.BadRequest;
 
-public class RefreshTokenBadRequest() : BadRequestException("Invalid client request: token has invalid values.");
+public class RefreshTokenBadRequest() : BadRequestException(ExceptionMessagesConstants.RefreshTokenBadRequest);
