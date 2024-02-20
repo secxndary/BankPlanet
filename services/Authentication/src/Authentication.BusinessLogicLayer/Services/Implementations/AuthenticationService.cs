@@ -13,14 +13,12 @@ public class AuthenticationService : IAuthenticationService
 {
     private readonly IMapper _mapper;
     private readonly UserManager<User> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
     private readonly UserContext _userContext;
 
-    public AuthenticationService(IMapper mapper, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, UserContext userContext)
+    public AuthenticationService(IMapper mapper, UserManager<User> userManager, UserContext userContext)
     {
         _mapper = mapper;
         _userManager = userManager;
-        _roleManager = roleManager;
         _userContext = userContext;
     }
 
