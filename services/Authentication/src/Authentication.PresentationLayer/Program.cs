@@ -20,7 +20,7 @@ builder.Services.ConfigureJwt(builder.Configuration);
 builder.Services.AddJwtConfiguration(builder.Configuration);
 
 builder.Services.AddControllers();
-
+builder.Services.ConfigureFluentValidation();
 
 var app = builder.Build();
 
