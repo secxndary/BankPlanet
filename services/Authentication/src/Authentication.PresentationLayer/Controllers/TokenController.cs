@@ -12,6 +12,7 @@ namespace Authentication.PresentationLayer.Controllers;
 [Produces(Constants.ApplicationJson)]
 public class TokenController(IServiceManager service) : ControllerBase
 {
+    [Authorize]
     [HttpPost("refresh")]
     [ProducesResponseType(typeof(TokenDto), 200)]
     [ProducesResponseType(400)]
