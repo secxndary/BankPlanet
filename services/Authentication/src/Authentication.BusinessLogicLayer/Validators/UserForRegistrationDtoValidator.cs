@@ -9,26 +9,18 @@ public class UserForRegistrationDtoValidator : AbstractValidator<UserForRegistra
     {
         RuleFor(u => u.FirstName)
             .NotNull()
-            .WithMessage("Введите имя")
-            .MaximumLength(100)
-            .WithMessage("Максимальная длина имени – 100 символов");
+            .WithMessage("Введите имя");
 
         RuleFor(u => u.LastName)
             .NotNull()
-            .WithMessage("Введите фамилию")
-            .MaximumLength(100)
-            .WithMessage("Максимальная длина фамилии – 100 символов");
+            .WithMessage("Введите фамилию");
 
         RuleFor(u => u.UserName)
             .NotNull()
-            .WithMessage("Введите имя пользователя")
-            .MaximumLength(50)
-            .WithMessage("Максимальная длина имени пользователя – 50 символов");
+            .WithMessage("Введите имя пользователя");
 
         RuleFor(u => u.Password)
             .NotNull()
-            .WithMessage("Введите пароль")
-            .MaximumLength(100)
-            .WithMessage("Максимальная длина пароля – 100 символов");
+            .WithMessage("Введите пароль");
     }
 }

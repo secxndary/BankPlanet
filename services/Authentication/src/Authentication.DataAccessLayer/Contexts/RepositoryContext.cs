@@ -1,4 +1,4 @@
-using System.Reflection;
+using Authentication.DataAccessLayer.Configurations;
 using Authentication.DataAccessLayer.Entities.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +11,6 @@ public class RepositoryContext(DbContextOptions options) : IdentityDbContext<Use
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
     }
 }
