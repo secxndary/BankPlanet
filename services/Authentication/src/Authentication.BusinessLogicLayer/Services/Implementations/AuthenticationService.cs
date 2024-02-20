@@ -30,19 +30,9 @@ public class AuthenticationService : IAuthenticationService
         var user = _mapper.Map<User>(userForRegistration);
         var result = await _userManager.CreateAsync(user, userForRegistration.Password!);
 
-        foreach (var role in userForRegistration.Roles!)
-            if (!await _roleManager.RoleExistsAsync(role))
-            {
-                return IdentityResult.Failed(new IdentityError
-                {
-                    Code = "RoleNotExist",
-                    Description = $"Role {role} does not exist."
-                });
-            }
-
         if (result.Succeeded)
         {
-            await _userManager.AddToRolesAsync(user, userForRegistration.Roles!);
+            await _userManager.AddToRolesAsync(user, new[] { RoleConstants.User });
         }
 
         return result;
