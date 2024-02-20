@@ -1,11 +1,17 @@
+using System.Reflection;
 using System.Text;
+using Authentication.BusinessLogicLayer;
+using Authentication.BusinessLogicLayer.DataTransferObjects;
 using Authentication.BusinessLogicLayer.Services.Implementations;
 using Authentication.BusinessLogicLayer.Services.Interfaces;
 using Authentication.BusinessLogicLayer.Services.Utility;
+using Authentication.BusinessLogicLayer.Validators;
 using Authentication.DataAccessLayer.Contexts;
 using Authentication.DataAccessLayer.Entities.ConfigurationModels;
 using Authentication.DataAccessLayer.Entities.Models;
 using Common;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +35,12 @@ public static class ServiceExtensions
 
     public static void ConfigureLowercaseRoute(this IServiceCollection services) =>
         services.AddRouting(options => options.LowercaseUrls = true);
+
+    public static void ConfigureFluentValidation(this IServiceCollection services) =>
+        services
+            .AddFluentValidationAutoValidation()
+            .AddFluentValidationClientsideAdapters()
+            .AddValidatorsFromAssembly(typeof(AssemblyReference).Assembly);
 
     public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
         services.AddDbContext<RepositoryContext>(options =>
