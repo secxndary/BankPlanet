@@ -9,4 +9,5 @@ public static class Constants
     public const string Authorization = "Authorization";
     public const string Bearer = "Bearer";
     public const string V1 = "v1";
+    public const string ErrorsDelimiter = " ";
 }
