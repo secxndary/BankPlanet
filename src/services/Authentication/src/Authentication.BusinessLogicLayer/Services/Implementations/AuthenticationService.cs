@@ -1,6 +1,7 @@
 using Authentication.BusinessLogicLayer.DataTransferObjects;
 using Authentication.BusinessLogicLayer.Services.Interfaces;
 using Authentication.BusinessLogicLayer.Services.Utility;
+using Authentication.DataAccessLayer.Entities.Exceptions.BadRequest;
 using Authentication.DataAccessLayer.Entities.Exceptions.MessagesConstants;
 using Authentication.DataAccessLayer.Entities.Exceptions.NotFound;
 using Authentication.DataAccessLayer.Entities.Exceptions.Unauthorized;
@@ -24,17 +25,18 @@ public class AuthenticationService : IAuthenticationService
         _userContext = userContext;
     }
 
-    public async Task<IdentityResult> RegisterUserAsync(UserForRegistrationDto userForRegistration, CancellationToken cancellationToken)
+    public async Task RegisterUserAsync(UserForRegistrationDto userForRegistration, CancellationToken cancellationToken)
     {
         var user = _mapper.Map<User>(userForRegistration);
         var registrationResult = await _userManager.CreateAsync(user, userForRegistration.Password!);
 
-        if (registrationResult.Succeeded)
+        if (!registrationResult.Succeeded)
         {
-            await _userManager.AddToRolesAsync(user, new[] { RoleConstants.User });
+            throw new RegisterUserBadRequestException(
+                registrationResult.Errors.Aggregate(string.Empty, (current, error) => current + $"{error.Description} "));
         }
 
-        return registrationResult;
+        await _userManager.AddToRolesAsync(user, new[] { RoleConstants.User });
     }
 
     public async Task<bool> ValidateUserAsync(UserForAuthenticationDto userForAuthentication, CancellationToken cancellationToken)

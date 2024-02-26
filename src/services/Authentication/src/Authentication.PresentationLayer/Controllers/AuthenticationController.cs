@@ -13,22 +13,18 @@ namespace Authentication.PresentationLayer.Controllers;
 public class AuthenticationController(IServiceManager service) : ControllerBase
 {
     [HttpPost("sign-up")]
-    [ProducesResponseType(201)]
-    [ProducesResponseType(typeof(IdentityError), 400)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(IdentityError), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> RegisterUserAsync([FromBody] UserForRegistrationDto user, CancellationToken cancellationToken)
     {
-        var result = await service.AuthenticationService.RegisterUserAsync(user, cancellationToken);
-        if (result.Succeeded) return StatusCode(201);
+        await service.AuthenticationService.RegisterUserAsync(user, cancellationToken);
 
-        foreach (var error in result.Errors)
-            ModelState.TryAddModelError(error.Code, error.Description);
-
-        return BadRequest(ModelState);
+        return StatusCode(StatusCodes.Status201Created);
     }
 
     [HttpPost("sign-in")]
-    [ProducesResponseType(typeof(TokenDto), 200)]
-    [ProducesResponseType(401)]
+    [ProducesResponseType(typeof(TokenDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> AuthenticateAsync([FromBody] UserForAuthenticationDto user, CancellationToken cancellationToken)
     {
         await service.AuthenticationService.ValidateUserAsync(user, cancellationToken);
