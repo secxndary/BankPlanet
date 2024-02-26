@@ -14,8 +14,8 @@ public class TokenController(IServiceManager service) : ControllerBase
 {
     [Authorize]
     [HttpPost("refresh")]
-    [ProducesResponseType(typeof(TokenDto), 200)]
-    [ProducesResponseType(400)]
+    [ProducesResponseType(typeof(TokenDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> RefreshAsync([FromBody] TokenDto tokenDto, CancellationToken cancellationToken)
     {
         var tokenDtoRefreshed = await service.TokenService.RefreshTokenAsync(tokenDto, cancellationToken);

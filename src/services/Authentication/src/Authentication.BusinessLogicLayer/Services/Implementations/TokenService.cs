@@ -39,7 +39,7 @@ public class TokenService : ITokenService
 
         if (user == null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
         {
-            throw new RefreshTokenBadRequest();
+            throw new RefreshTokenBadRequestException(ExceptionMessagesConstants.RefreshTokenBadRequest);
         }
 
         _userContext.User = user;
@@ -74,7 +74,7 @@ public class TokenService : ITokenService
 
         if (user == null || user.RefreshTokenExpiryTime <= DateTime.Now)
         {
-            throw new RefreshTokenBadRequest();
+            throw new RefreshTokenBadRequestException(ExceptionMessagesConstants.RefreshTokenBadRequest);
         }
 
         var roles = await _userManager.GetRolesAsync(user);

@@ -2,4 +2,4 @@
 
 namespace Authentication.DataAccessLayer.Entities.Exceptions.BadRequest;
 
-public class RefreshTokenBadRequest() : BadRequestException(ExceptionMessagesConstants.RefreshTokenBadRequest);
+public class RefreshTokenBadRequestException(string message) : BadRequestException(message);
