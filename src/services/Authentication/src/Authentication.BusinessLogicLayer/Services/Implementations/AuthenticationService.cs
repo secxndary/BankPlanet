@@ -32,8 +32,7 @@ public class AuthenticationService : IAuthenticationService
 
         if (!registrationResult.Succeeded)
         {
-            throw new RegisterUserBadRequestException(
-                string.Join(" ", registrationResult.Errors.Select(e => e.Description)));
+            throw new RegisterUserBadRequestException(string.Join(" ", registrationResult.Errors.Select(e => e.Description)));
         }
 
         await _userManager.AddToRolesAsync(user, new[] { RoleConstants.User });
