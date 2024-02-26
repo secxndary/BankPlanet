@@ -19,7 +19,7 @@ public class AuthenticationController(IServiceManager service) : ControllerBase
     {
         await service.AuthenticationService.RegisterUserAsync(user, cancellationToken);
 
-        return StatusCode(StatusCodes.Status201Created);
+        return Created();
     }
 
     [HttpPost("sign-in")]
