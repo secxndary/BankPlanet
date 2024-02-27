@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text;
 using Authentication.BusinessLogicLayer;
 using Authentication.BusinessLogicLayer.Services.Implementations;
@@ -14,6 +15,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Exceptions;
+using Serilog.Sinks.Elasticsearch;
 
 namespace Authentication.PresentationLayer.Extensions;
 
@@ -21,6 +25,36 @@ public static class ServiceExtensions
 {
     public static void ConfigureIisIntegration(this IServiceCollection services) =>
         services.Configure<IISOptions>(options => { });
+
+    public static void ConfigureLogging(this IServiceCollection services)
+    {
+        var environment = Environment.GetEnvironmentVariable(Constants.AspNetCoreEnvironment);
+        var configuration = new ConfigurationBuilder()
+            .AddJsonFile(Constants.AppSettingsJson, optional: false, reloadOnChange: true)
+            .AddJsonFile($"{Constants.AppSettings}.{environment}.{Constants.Json}", optional: true)
+            .Build();
+
+        Log.Logger = new LoggerConfiguration()
+            .Enrich.FromLogContext()
+            .Enrich.WithExceptionDetails()
+            .WriteTo.Debug()
+            .WriteTo.Console()
+            .WriteTo.Elasticsearch(ConfigureElasticSink(configuration, environment!))
+            .Enrich.WithProperty(Constants.Environment, environment)
+            .ReadFrom.Configuration(configuration)
+            .CreateLogger();
+    }
+
+    private static ElasticsearchSinkOptions ConfigureElasticSink(IConfiguration configuration, string environment)
+    {
+        return new ElasticsearchSinkOptions(new Uri(configuration[Constants.ElasticConfigurationUri]!))
+        {
+            AutoRegisterTemplate = true,
+            IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name!.ToLower().Replace(".", "-")}-{environment.ToLower()}-{DateTime.UtcNow:yyyy-MM}",
+            NumberOfReplicas = 1,
+            NumberOfShards = 2
+        };
+    }
 
     public static void ConfigureServiceManager(this IServiceCollection services)
     {
