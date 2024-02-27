@@ -8,6 +8,8 @@ using Authentication.DataAccessLayer.Contexts;
 using Authentication.DataAccessLayer.Entities.ConfigurationModels;
 using Authentication.DataAccessLayer.Entities.Models;
 using Common;
+using Common.Constants;
+using Common.Logging;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -26,6 +28,9 @@ public static class ServiceExtensions
     public static void ConfigureIisIntegration(this IServiceCollection services) =>
         services.Configure<IISOptions>(options => { });
 
+    public static void ConfigureLoggerManager(this IServiceCollection services) =>
+        services.AddSingleton<ILoggerManager, LoggerManager>();
+
     public static void ConfigureLogging(this IServiceCollection services)
     {
         var environment = Environment.GetEnvironmentVariable(Constants.AspNetCoreEnvironment);
@@ -35,6 +40,7 @@ public static class ServiceExtensions
             .Build();
 
         Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
             .Enrich.FromLogContext()
             .Enrich.WithExceptionDetails()
             .WriteTo.Debug()
