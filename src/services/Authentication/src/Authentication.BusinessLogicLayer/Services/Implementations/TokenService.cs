@@ -10,7 +10,7 @@ using Authentication.DataAccessLayer.Entities.Exceptions.BadRequest;
 using Authentication.DataAccessLayer.Entities.Exceptions.MessagesConstants;
 using Authentication.DataAccessLayer.Entities.Models;
 using AutoMapper;
-using Common;
+using Common.Constants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

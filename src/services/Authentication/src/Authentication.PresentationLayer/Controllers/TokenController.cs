@@ -1,6 +1,6 @@
 using Authentication.BusinessLogicLayer.DataTransferObjects;
 using Authentication.BusinessLogicLayer.Services.Interfaces;
-using Common;
+using Common.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

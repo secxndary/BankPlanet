@@ -1,4 +1,4 @@
-﻿using Common;
+﻿using Common.Constants;
 
 namespace Authentication.DataAccessLayer.Entities.ConfigurationModels;
 
