@@ -42,7 +42,7 @@ public class TokenService : ITokenService
 
         if (user == null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
         {
-            _logger.LogError(LoggingMessagesConstants.RegisterUserAsyncError);
+            _logger.LogError(LoggingMessagesConstants.RefreshTokenAsyncError);
             throw new RefreshTokenBadRequestException(ExceptionMessagesConstants.RefreshTokenBadRequest);
         }
 
