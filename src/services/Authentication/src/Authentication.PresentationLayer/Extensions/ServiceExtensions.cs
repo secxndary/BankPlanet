@@ -7,7 +7,6 @@ using Authentication.BusinessLogicLayer.Services.Utility;
 using Authentication.DataAccessLayer.Contexts;
 using Authentication.DataAccessLayer.Entities.ConfigurationModels;
 using Authentication.DataAccessLayer.Entities.Models;
-using Common;
 using Common.Constants;
 using Common.Logging;
 using FluentValidation;
@@ -26,10 +25,13 @@ namespace Authentication.PresentationLayer.Extensions;
 public static class ServiceExtensions
 {
     public static void ConfigureIisIntegration(this IServiceCollection services) =>
-        services.Configure<IISOptions>(options => { });
+        services.Configure<IISOptions>(_ => { });
 
-    public static void ConfigureLoggerManager(this IServiceCollection services) =>
+    public static void ConfigureLoggerManager(this IServiceCollection services)
+    {
+        services.AddSingleton(Log.Logger);
         services.AddSingleton<ILoggerManager, LoggerManager>();
+    }
 
     public static void ConfigureLogging(this IServiceCollection services)
     {
