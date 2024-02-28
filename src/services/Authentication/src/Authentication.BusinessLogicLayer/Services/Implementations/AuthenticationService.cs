@@ -8,6 +8,7 @@ using Authentication.DataAccessLayer.Entities.Exceptions.Unauthorized;
 using Authentication.DataAccessLayer.Entities.Models;
 using AutoMapper;
 using Common.Constants;
+using Common.Constants.LoggingMessagesConstants.Authentication;
 using Common.Logging;
 using Microsoft.AspNetCore.Identity;
 
@@ -35,11 +36,11 @@ public class AuthenticationService : IAuthenticationService
 
         if (!registrationResult.Succeeded)
         {
-            _logger.LogError(LoggingMessagesConstants.RegisterUserAsyncError);
+            _logger.LogError(AuthenticationLoggingMessages.RegisterUserAsyncError);
             throw new RegisterUserBadRequestException(string.Join(" ", registrationResult.Errors.Select(e => e.Description)));
         }
 
-        _logger.LogInfo(LoggingMessagesConstants.RegisterUserAsyncSuccess);
+        _logger.LogInfo(AuthenticationLoggingMessages.RegisterUserAsyncSuccess);
 
         await _userManager.AddToRolesAsync(user, new[] { RoleConstants.User });
     }
@@ -50,7 +51,7 @@ public class AuthenticationService : IAuthenticationService
 
         if (_userContext.User is null)
         {
-            _logger.LogError(LoggingMessagesConstants.ValidateUserAsyncError);
+            _logger.LogError(AuthenticationLoggingMessages.ValidateUserAsyncError);
             throw new UserNotFoundException(ExceptionMessagesConstants.UserNotFound);
         }
 
@@ -58,11 +59,11 @@ public class AuthenticationService : IAuthenticationService
 
         if (!validationResult)
         {
-            _logger.LogError(LoggingMessagesConstants.ValidateUserAsyncError);
+            _logger.LogError(AuthenticationLoggingMessages.ValidateUserAsyncError);
             throw new UnauthorizedException(ExceptionMessagesConstants.Unauthorized);
         }
 
-        _logger.LogInfo(LoggingMessagesConstants.ValidateUserAsyncSuccess);
+        _logger.LogInfo(AuthenticationLoggingMessages.ValidateUserAsyncSuccess);
 
         return validationResult;
     }

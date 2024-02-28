@@ -11,6 +11,7 @@ using Authentication.DataAccessLayer.Entities.Exceptions.MessagesConstants;
 using Authentication.DataAccessLayer.Entities.Models;
 using AutoMapper;
 using Common.Constants;
+using Common.Constants.LoggingMessagesConstants.Token;
 using Common.Logging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -42,13 +43,13 @@ public class TokenService : ITokenService
 
         if (user == null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
         {
-            _logger.LogError(LoggingMessagesConstants.RefreshTokenAsyncError);
+            _logger.LogError(TokenLoggingMessages.RefreshTokenAsyncError);
             throw new RefreshTokenBadRequestException(ExceptionMessagesConstants.RefreshTokenBadRequest);
         }
 
         _userContext.User = user;
 
-        _logger.LogInfo(LoggingMessagesConstants.RefreshTokenAsyncSuccess);
+        _logger.LogInfo(TokenLoggingMessages.RefreshTokenAsyncSuccess);
 
         return await CreateTokenAsync(populateExpiration: false, cancellationToken);
     }
@@ -64,14 +65,14 @@ public class TokenService : ITokenService
 
         if (populateExpiration)
         {
-            _logger.LogError(LoggingMessagesConstants.CreateTokenAsyncError);
+            _logger.LogError(TokenLoggingMessages.CreateTokenAsyncError);
             _userContext.User.RefreshTokenExpiryTime = DateTime.Now.AddDays(Convert.ToDouble(_jwtConfiguration.RefreshExpiresDays));
         }
 
         await _userManager.UpdateAsync(_userContext.User);
         var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-        _logger.LogInfo(LoggingMessagesConstants.CreateTokenAsyncSuccess);
+        _logger.LogInfo(TokenLoggingMessages.CreateTokenAsyncSuccess);
 
         return new TokenDto(accessToken, refreshToken);
     }
