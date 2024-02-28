@@ -47,6 +47,7 @@ public class TokenService : ITokenService
         }
 
         _userContext.User = user;
+
         _logger.LogInfo(LoggingMessagesConstants.RefreshTokenAsyncSuccess);
 
         return await CreateTokenAsync(populateExpiration: false, cancellationToken);
@@ -69,6 +70,7 @@ public class TokenService : ITokenService
 
         await _userManager.UpdateAsync(_userContext.User);
         var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
         _logger.LogInfo(LoggingMessagesConstants.CreateTokenAsyncSuccess);
 
         return new TokenDto(accessToken, refreshToken);

@@ -27,7 +27,6 @@ builder.Services.ConfigureLoggerManager();
 builder.Services.ConfigureLogging();
 builder.Host.UseSerilog();
 
-
 var app = builder.Build();
 
 app.ConfigureExceptionHandler();
