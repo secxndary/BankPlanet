@@ -17,5 +17,8 @@ public static class Constants
 
     public const string AspNetCoreEnvironment = "ASPNETCORE_ENVIRONMENT";
     public const string Environment = "Environment";
+
     public const string ElasticConfigurationUri = "ElasticConfiguration:Uri";
+    public const int NumberOfReplicas = 1;
+    public const int NumberOfShards = 2;
 }

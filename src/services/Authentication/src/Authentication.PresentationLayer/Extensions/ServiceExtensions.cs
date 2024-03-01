@@ -59,8 +59,8 @@ public static class ServiceExtensions
         {
             AutoRegisterTemplate = true,
             IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name!.ToLower().Replace(".", "-")}-{environment.ToLower()}-{DateTime.UtcNow:yyyy-MM}",
-            NumberOfReplicas = 1,
-            NumberOfShards = 2
+            NumberOfReplicas = Constants.NumberOfReplicas,
+            NumberOfShards = Constants.NumberOfShards
         };
     }
 
