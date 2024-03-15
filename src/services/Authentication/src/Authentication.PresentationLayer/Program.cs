@@ -1,5 +1,6 @@
 using Authentication.BusinessLogicLayer;
 using Authentication.PresentationLayer.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,10 @@ builder.Services.AddJwtConfiguration(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.ConfigureFluentValidation();
+
+builder.Services.ConfigureLoggerManager();
+builder.Services.ConfigureLogging();
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 

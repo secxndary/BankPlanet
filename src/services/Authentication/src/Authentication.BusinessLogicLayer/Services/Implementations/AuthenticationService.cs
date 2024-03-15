@@ -7,7 +7,9 @@ using Authentication.DataAccessLayer.Entities.Exceptions.NotFound;
 using Authentication.DataAccessLayer.Entities.Exceptions.Unauthorized;
 using Authentication.DataAccessLayer.Entities.Models;
 using AutoMapper;
-using Common;
+using Common.Constants;
+using Common.Constants.LoggingMessagesConstants.Authentication;
+using Common.Logging;
 using Microsoft.AspNetCore.Identity;
 
 namespace Authentication.BusinessLogicLayer.Services.Implementations;
@@ -17,12 +19,14 @@ public class AuthenticationService : IAuthenticationService
     private readonly IMapper _mapper;
     private readonly UserManager<User> _userManager;
     private readonly UserContext _userContext;
+    private readonly ILoggerManager _logger;
 
-    public AuthenticationService(IMapper mapper, UserManager<User> userManager, UserContext userContext)
+    public AuthenticationService(IMapper mapper, UserManager<User> userManager, UserContext userContext, ILoggerManager logger)
     {
         _mapper = mapper;
         _userManager = userManager;
         _userContext = userContext;
+        _logger = logger;
     }
 
     public async Task RegisterUserAsync(UserForRegistrationDto userForRegistration, CancellationToken cancellationToken)
@@ -32,8 +36,11 @@ public class AuthenticationService : IAuthenticationService
 
         if (!registrationResult.Succeeded)
         {
-            throw new RegisterUserBadRequestException(string.Join(Constants.ErrorsDelimiter, registrationResult.Errors.Select(e => e.Description)));
+            _logger.LogError(AuthenticationLoggingMessages.RegisterUserAsyncError);
+            throw new RegisterUserBadRequestException(string.Join(" ", registrationResult.Errors.Select(e => e.Description)));
         }
+
+        _logger.LogInfo(AuthenticationLoggingMessages.RegisterUserAsyncSuccess);
 
         await _userManager.AddToRolesAsync(user, new[] { RoleConstants.User });
     }
@@ -44,6 +51,7 @@ public class AuthenticationService : IAuthenticationService
 
         if (_userContext.User is null)
         {
+            _logger.LogError(AuthenticationLoggingMessages.ValidateUserAsyncError);
             throw new UserNotFoundException(ExceptionMessagesConstants.UserNotFound);
         }
 
@@ -51,8 +59,11 @@ public class AuthenticationService : IAuthenticationService
 
         if (!validationResult)
         {
+            _logger.LogError(AuthenticationLoggingMessages.ValidateUserAsyncError);
             throw new UnauthorizedException(ExceptionMessagesConstants.Unauthorized);
         }
+
+        _logger.LogInfo(AuthenticationLoggingMessages.ValidateUserAsyncSuccess);
 
         return validationResult;
     }

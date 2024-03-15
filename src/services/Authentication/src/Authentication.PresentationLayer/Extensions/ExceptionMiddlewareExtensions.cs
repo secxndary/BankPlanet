@@ -3,7 +3,7 @@ using Authentication.DataAccessLayer.Entities.ErrorModel;
 using Authentication.DataAccessLayer.Entities.Exceptions.BadRequest;
 using Authentication.DataAccessLayer.Entities.Exceptions.NotFound;
 using Authentication.DataAccessLayer.Entities.Exceptions.Unauthorized;
-using Common;
+using Common.Constants;
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace Authentication.PresentationLayer.Extensions;
