@@ -1,0 +1,3 @@
+namespace Cards.BusinessLogicLayer.Entities.DataTransferObjects.Transaction;
+
+public record TransactionForUpdateDto: TransactionForManipulationDto;

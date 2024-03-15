@@ -1,0 +1,3 @@
+namespace Cards.DataAccessLayer.Entities.RequestFeatures.RequestParameters.ModelsRequestParameters;
+
+public class CardTypeParameters : RequestParameters;

@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace Authentication.PresentationLayer.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route(Constants.ApiController)]
 [Consumes(Constants.ApplicationJson)]
 [Produces(Constants.ApplicationJson)]
 public class TokenController(IServiceManager service) : ControllerBase
 {
     [Authorize]
-    [HttpPost("refresh")]
+    [HttpPost(Constants.Refresh)]
     [ProducesResponseType(typeof(TokenDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> RefreshAsync([FromBody] TokenDto tokenDto, CancellationToken cancellationToken)

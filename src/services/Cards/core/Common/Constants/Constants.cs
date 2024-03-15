@@ -7,7 +7,7 @@ public static class Constants
     public const string Json = "json";
     public const string AppSettingsJson = $"{AppSettings}.{Json}";
 
-    public const string MsSqlConnection = "mssqlConnection";
+    public const string PostgresConnection = "PostgresConnection";
 
     public const string Secret = "SECRET";
     public const string JwtSettings = "JwtSettings";
@@ -23,8 +23,14 @@ public static class Constants
     public const int NumberOfShards = 2;
 
     public const string ApiController = "api/[controller]";
+    public const string PaginationHeader = "X-Pagination";
 
-    public const string SignUp = "sign-up";
-    public const string SignIn = "sign-in";
-    public const string Refresh = "refresh";
+    public const string CardTypesRoute = "api/card-types";
+    
+    public const string GetCardById = "GetCardById";
+    public const string GetCardTypeById = "GetCardTypeById";
+    public const string GetTransactionById = "GetTransactionById";
+
+    public const int DefaultPageSize = 10;
+    public const int DefaultMaxPageSize = 50;
 }

@@ -1,0 +1,3 @@
+namespace Cards.BusinessLogicLayer.Entities.DataTransferObjects.CardType;
+
+public record CardTypeForCreationDto : CardTypeForManipulationDto;

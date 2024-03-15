@@ -1,18 +1,17 @@
 using System.Reflection;
 using System.Text;
-using Authentication.BusinessLogicLayer;
-using Authentication.BusinessLogicLayer.Services.Implementations;
-using Authentication.BusinessLogicLayer.Services.Interfaces;
-using Authentication.BusinessLogicLayer.Services.Utility;
-using Authentication.DataAccessLayer.Contexts;
-using Authentication.DataAccessLayer.Entities.ConfigurationModels;
-using Authentication.DataAccessLayer.Entities.Models;
+using Cards.BusinessLogicLayer;
+using Cards.DataAccessLayer.Contexts;
+using Cards.DataAccessLayer.Entities.ConfigurationModels;
+using Cards.DataAccessLayer.Repositories.Implementations;
+using Cards.DataAccessLayer.Repositories.Implementations.ModelsRepositories;
+using Cards.DataAccessLayer.Repositories.Interfaces;
+using Cards.DataAccessLayer.Repositories.Interfaces.ModelsRepositories;
 using Common.Constants;
 using Common.Logging;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -20,7 +19,7 @@ using Serilog;
 using Serilog.Exceptions;
 using Serilog.Sinks.Elasticsearch;
 
-namespace Authentication.PresentationLayer.Extensions;
+namespace Cards.PresentationLayer.Extensions;
 
 public static class ServiceExtensions
 {
@@ -33,7 +32,15 @@ public static class ServiceExtensions
         services.AddSingleton<ILoggerManager, LoggerManager>();
     }
 
-    public static void ConfigureLogging(this IServiceCollection services)
+    public static void ConfigureRepositoryManager(this IServiceCollection services)
+    {
+        services.AddScoped<ICardTypeRepository, CardTypeRepository>();
+        services.AddScoped<ICardRepository, CardRepository>();
+        services.AddScoped<ITransactionRepository, TransactionRepository>();
+        services.AddScoped<IRepositoryManager, RepositoryManager>();
+    }
+
+    public static void ConfigureLogging(this IServiceCollection _)
     {
         var environment = Environment.GetEnvironmentVariable(Constants.AspNetCoreEnvironment);
         var configuration = new ConfigurationBuilder()
@@ -64,14 +71,6 @@ public static class ServiceExtensions
         };
     }
 
-    public static void ConfigureServiceManager(this IServiceCollection services)
-    {
-        services.AddScoped<UserContext>();
-        services.AddScoped<ITokenService, TokenService>();
-        services.AddScoped<IAuthenticationService, AuthenticationService>();
-        services.AddScoped<IServiceManager, ServiceManager>();
-    }
-
     public static void ConfigureLowercaseRoute(this IServiceCollection services) =>
         services.AddRouting(options => options.LowercaseUrls = true);
 
@@ -83,22 +82,10 @@ public static class ServiceExtensions
 
     public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
         services.AddDbContext<RepositoryContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString(Constants.MsSqlConnection)));
+            options.UseNpgsql(configuration.GetConnectionString(Constants.PostgresConnection)));
 
-    public static void ConfigureIdentity(this IServiceCollection services)
-    {
-        services.AddIdentity<User, IdentityRole>(o =>
-            {
-                o.Password.RequireDigit = true;
-                o.Password.RequireLowercase = true;
-                o.Password.RequireUppercase = true;
-                o.Password.RequireNonAlphanumeric = true;
-                o.Password.RequiredLength = 10;
-                o.User.RequireUniqueEmail = true;
-            })
-            .AddEntityFrameworkStores<RepositoryContext>()
-            .AddDefaultTokenProviders();
-    }
+    public static void ConfigureControllers(this IServiceCollection services) =>
+        services.AddControllers();
 
     public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
     {
